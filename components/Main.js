@@ -2,6 +2,7 @@ import { StyleSheet, Text, FlatList, TouchableOpacity, Image, View, SafeAreaView
 import React, { useState } from 'react'
 import { gStyle } from '../styles/style'
 import { Ionicons } from '@expo/vector-icons'
+import Form from './Form'
 
 const NewsArray = [
     { name: "Google", anons: "Google!!!", full: "Google is cool!", key: 1, image: "https://www.cbc.ca/kidsnews/images/GOOGLE25THTHUMB2.png" },
@@ -17,15 +18,23 @@ const Main = ({ navigation }) => {
     const [News, setNews] = useState(NewsArray);
     const [IsOpen, setIsOpen] = useState(false);
 
-    const handleModal = () => setIsOpen(prev => !prev)
+    const handleModal = () => setIsOpen(prev => !prev);
+    const onAddItem = item => {
+        setNews(prev => [
+            { ...item, key: Math.random().toString() },
+            ...prev
+        ]);
+        setIsOpen(false)
+    }
 
     return (
         <SafeAreaView style={gStyle.main}>
             <Modal visible={IsOpen}>
                 <View style={[{ padding: 20 }, gStyle.main]}>
 
-                    <Text>ok</Text>
                     <Ionicons onPress={handleModal} name='close-circle' color={"red"} style={styles.add} size={34} />
+
+                    <Form addItem={onAddItem} />
                 </View>
             </Modal>
 
